@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body>
+        {% block navbar %}
+        <header>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+		  <div class="container-fluid">
+		    <div class="navbar-header">
+
+
+
+			    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+			        <span class="icon-bar"></span>
+			        <span class="icon-bar"></span>
+			        <span class="icon-bar"></span>
+			    </button>
+		    </div>
+
+		  </div>
+
+		  <div class="collapse navbar-collapse" id="myNavbar">
+		  	<div class="navbar-header">
+		      <a class="navbar-brand" href="#">Killer Party</a>
+		    </div>
+		    <ul class="nav navbar-nav">
+		      <li class="active"><a href="#">Home</a></li>
+		      <li><a href="#">Créer une Party</a></li>
+		    </ul>
+
+		    <form class="navbar-form navbar-left" action="">
+		    	<div class="input-group">
+		    		<input type="text" class="form-control" placeholder="Voir une Party">
+		    		<div class="input-group-btn">
+		    			<button type="submit" class="btn btn-default">
+		    				<i class="glyphicon glyphicon-list-alt"></i>
+		    			</button>
+		    		</div>
+		    	</div>
+		    </form>
+        <form class="navbar-form navbar-left" action="">
+		    	<div class="input-group">
+		    		<input type="text" class="form-control" placeholder="Voir un profil">
+		    		<div class="input-group-btn">
+		    			<button type="submit" class="btn btn-default">
+		    				<i class="glyphicon glyphicon-file"></i>
+		    			</button>
+		    		</div>
+		    	</div>
+		    </form>
+
+        {% if app.session.get("user") and app.session.get("user").getIsAdmin() %}
+        <a type="button" class="btn btn-danger navbar-btn">Admin</a>
+        {% endif %}
+		    <ul class="nav navbar-nav navbar-right">
+          {% if not(app.session.get("user"))%}
+          <li><a href="/signin"><span class="glyphicon glyphicon-user"></span> S'enregistrer</a></li>
+		      <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> S'identifier</a></li>
+          {% else %}
+          <li><span class="glyphicon glyphicon-user"></span>{{app.session.get("user").getUserName() }}</li>
+          <li><a href="/disconnect"><span class="glyphicon glyphicon-log-out"></span> Se déconnecter</a></li>
+          {% endif %}
+		    </ul>
+		  </div>
+		</nav>
+		</header>
+		{% endblock %}
+		<main>
+		{% block body %}
+		{% endblock %}
+		</main>
+        {% block javascripts %}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  		{% endblock %}
+    </body>
+</html>
