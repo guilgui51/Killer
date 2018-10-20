@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+{% block body %}
+    <div class="container">
+    <div class="jumbotron">
+        <div class="page-header">
+        <h1 class="text-center text-uppercase">{{participant.getName}}</h1>
+        {% if not(participant.isAlive) %}
+        <div class="text-center">
+        <h2>Mince on dirait que tu es mort <span class="glyphicon glyphicon-thumbs-down"></span> Ta mission est donc terminée <span class="glyphicon glyphicon-remove-circle"></span></h2>
+        </div>
+        </div>
+        {% else %}
+        </div>
+        <div class="container">
+        <div class="text-center"><p>Ta cible est {{participant.getTarget.getName}}</p></div>
+        <div class="jumbotron">
+        <div class="text-center"><h2>{{participant.getMission.getMissionTitle}}</h2></div>
+        <div class="text-center"><p>{{participant.getMission.getMissionText}}</p></div>
+        </div>
+        </div>
+        {% endif %}
+
+
+        <div class="row">
+        <div class="col-xs-6 text-center">
+        {% if participant.isAlive %}
+        <a class="btn btn-danger btn-lg" href="/killed/{{participant.getUid}}">Oh non je me suis fait tué :(</a>
+        {% else %}
+        <a class="btn btn-danger btn-lg disabled" href="/killed/{{participant.getUid}}">Oh non je me suis fait tué :(</a>
+        {% endif %}
+        </div>
+        <div class="col-xs-6 text-center">
+        <a class="btn btn-success btn-lg" href="/party/{{participant.getParty.getUid}}">Voir le tableau des scores</a>
+        </div>
+        </div>
+    </div>
+    </div>
+
+{% endblock %}

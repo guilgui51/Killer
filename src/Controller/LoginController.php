@@ -5,6 +5,8 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use App\Entity\User;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -50,7 +52,7 @@ class LoginController extends AbstractController
     public function userSignIn(Request $request)
     {
         $user = new User();
-        
+
         $form = $this->createFormBuilder($user)
             ->add('userName', TextType::class,array('label'=>"Nom d'utilisateur"))
             ->add('password', PasswordType::class,array('label'=>'Mot de passe'))
@@ -61,6 +63,7 @@ class LoginController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
             $user->setPassword(hash('sha256',$form["password"]->getData()));
+            $user->setIsAdmin(FALSE);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);

@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block navbar %}
+<ul class="nav navbar-nav">
+  <li><a href="#">Administration</a></li>
+  <li><a href="/home">Home</a></li>
+  <li><a href="/admin/mission/create">Créer une mission</a></li>
+  <li><a href="/admin/mission/list">Voir les missions</a></li>
+  <li  class="active"><a href="/admin/party/list">Voir les partys</a></li>
+  <li><a href="/admin/user/view">Voir les utilisateurs</a></li>
+</ul>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+    <div class="jumbotron">
+        <div class="page-header">
+        <h1 class="text-center text-uppercase">Liste des Party</h1>
+        </div>
+    <div class="table-responsive">
+     <table class="table">
+         <thead>
+           <tr>
+
+             <th class="text-center">Nom</th>
+             <th class="text-center">Date de début</th>
+
+           </tr>
+         </thead>
+         <tbody>
+             {% for party in partys %}
+
+             <tr>
+               <td class="text-center">{{party.getName}} <span class="label label-default"> {{party.getParticipants|length}}</span></td>
+               <td class="text-center">{{party.getStartingDate|localizeddate('full','short')}}</td>
+               <td class="text-center">
+                   <div class="btn-group">
+                       <a class="btn btn-success btn-sm" href="/admin/party/view/{{party.getUid}}">Voir</a>
+                       <a class="btn btn-danger btn-sm" href="/admin/party/delete/{{party.getUid}}">Supprimer</a>
+                   </div>
+               </td>
+             </tr>
+
+             {% endfor %}
+        </tbody>
+     </table>
+    </div>
+    </div>
+    </div>
+
+{% endblock %}

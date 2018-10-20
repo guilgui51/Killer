@@ -9,14 +9,10 @@
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
-        {% block navbar %}
         <header>
         <nav class="navbar navbar-inverse navbar-fixed-top">
 		  <div class="container-fluid">
 		    <div class="navbar-header">
-
-
-
 			    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
 			        <span class="icon-bar"></span>
 			        <span class="icon-bar"></span>
@@ -28,28 +24,29 @@
 
 		  <div class="collapse navbar-collapse" id="myNavbar">
 		  	<div class="navbar-header">
-		      <a class="navbar-brand" href="#">Killer Party</a>
+		      <a class="navbar-brand" href="/home">Killer Party</a>
 		    </div>
+            {% block navbar %}
 		    <ul class="nav navbar-nav">
-		      <li class="active"><a href="#">Home</a></li>
-		      <li><a href="#">Créer une Party</a></li>
+		      <li class="active"><a href="/home">Home</a></li>
+		      <li><a href="/party/create">Créer une Party</a></li>
 		    </ul>
 
-		    <form class="navbar-form navbar-left" action="">
+		    <form onsubmit="return goToParty()" class="navbar-form navbar-left" >
 		    	<div class="input-group">
-		    		<input type="text" class="form-control" placeholder="Voir une Party">
+		    		<input id="inPart" type="text" class="form-control" placeholder="Voir une Party">
 		    		<div class="input-group-btn">
-		    			<button type="submit" class="btn btn-default">
+		    			<button class="btn btn-default" type="submit">
 		    				<i class="glyphicon glyphicon-list-alt"></i>
 		    			</button>
 		    		</div>
 		    	</div>
 		    </form>
-        <form class="navbar-form navbar-left" action="">
+        <form onsubmit="return goToProfil()" class="navbar-form navbar-left">
 		    	<div class="input-group">
-		    		<input type="text" class="form-control" placeholder="Voir un profil">
+		    		<input id="inProf" type="text" class="form-control" placeholder="Voir un profil">
 		    		<div class="input-group-btn">
-		    			<button type="submit" class="btn btn-default">
+		    			<button class="btn btn-default" onclick="goToProfil()">
 		    				<i class="glyphicon glyphicon-file"></i>
 		    			</button>
 		    		</div>
@@ -57,21 +54,22 @@
 		    </form>
 
         {% if app.session.get("user") and app.session.get("user").getIsAdmin() %}
-        <a type="button" class="btn btn-danger navbar-btn">Admin</a>
+        <a type="button" class="btn btn-danger navbar-btn" href="/admin/home">Admin</a>
         {% endif %}
+        {% endblock %}
 		    <ul class="nav navbar-nav navbar-right">
           {% if not(app.session.get("user"))%}
-          <li><a href="/signin"><span class="glyphicon glyphicon-user"></span> S'enregistrer</a></li>
-		      <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> S'identifier</a></li>
+          <li><a href="/signin"><span class="glyphicon glyphicon-user"></span> S'enregistrer </a></li>
+		      <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> S'identifier &nbsp;</a></li>
           {% else %}
-          <li><span class="glyphicon glyphicon-user"></span>{{app.session.get("user").getUserName() }}</li>
-          <li><a href="/disconnect"><span class="glyphicon glyphicon-log-out"></span> Se déconnecter</a></li>
+          <li><a href="#"><span class="glyphicon glyphicon-user"></span> {{app.session.get("user").getUserName() }} </a></li>
+          <li><a href="/disconnect"><span class="glyphicon glyphicon-log-out"></span> Se déconnecter &nbsp;</a></li>
           {% endif %}
 		    </ul>
+
 		  </div>
 		</nav>
 		</header>
-		{% endblock %}
 		<main>
 		{% block body %}
 		{% endblock %}
@@ -79,6 +77,8 @@
         {% block javascripts %}
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="/script/navbutton.min.js"></script>
   		{% endblock %}
+
     </body>
 </html>

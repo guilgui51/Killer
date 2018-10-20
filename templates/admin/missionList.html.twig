@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block navbar %}
+<ul class="nav navbar-nav">
+  <li><a href="#">Administration</a></li>
+  <li><a href="/home">Home</a></li>
+  <li><a href="/admin/mission/create">Créer une mission</a></li>
+  <li  class="active"><a href="/admin/mission/list">Voir les missions</a></li>
+  <li><a href="/admin/party/list">Voir les partys</a></li>
+  <li><a href="/admin/user/view">Voir les utilisateurs</a></li>
+</ul>
+
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+    {% for mission in missions %}
+    <div class="jumbotron">
+        <div class="page-header">
+        <h1 class="text-uppercase">{{mission.getMissionTitle}}</h1>
+        </div>
+
+        <p class="lead">{{mission.getMissionText}}</p>
+
+    </div>
+    {% endfor %}
+    </div>
+
+{% endblock %}

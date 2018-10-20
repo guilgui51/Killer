@@ -1,0 +1,12 @@
+{# templates/emails/registration.html.twig #}
+<h3>La partie commencera le {{party.getStartingDate|localizeddate('full','short')}}</h3>
+
+Salut {{participant.getName}}! Bienvenue dans le programme Killer!
+
+Tu vas pouvoir accéder à ton espace personnel grâce à ce code ({{participant.getUid}}) ne le perd pas!
+Tu peux aussi directement utiliser cette url : <a href="http://ckngf.fr/participant/{{participant.getUid}}">Mon profil</a>.
+
+Si tu veux consulter le tableau de bord de la partie utilise ce code ({{party.getUid}})
+Tu peux aussi directement utiliser cette url : <a href="http://ckngf.fr/party/{{party.getUid}}">Killer Party</a>.
+
+Fin de transmission.

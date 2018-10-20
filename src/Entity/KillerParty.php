@@ -34,7 +34,7 @@ class KillerParty
     private $uid;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Participant", mappedBy="party")
+     * @ORM\OneToMany(targetEntity="App\Entity\Participant", mappedBy="party", cascade={"persist"})
      */
     private $participants;
 

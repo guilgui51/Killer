@@ -4,9 +4,9 @@
 
 {% block navbar %}
 <ul class="nav navbar-nav">
-  <li class="active"><a href="#">Administration</a></li>
+  <li><a href="#">Administration</a></li>
   <li><a href="/home">Home</a></li>
-  <li><a href="/admin/mission/create">Créer une mission</a></li>
+  <li class="active"><a href="/admin/mission/create">Créer une mission</a></li>
   <li><a href="/admin/mission/list">Voir les missions</a></li>
   <li><a href="/admin/party/list">Voir les partys</a></li>
   <li><a href="/admin/user/view">Voir les utilisateurs</a></li>
@@ -15,4 +15,12 @@
 {% endblock %}
 
 {% block body %}
+<div class="container">
+    <div class="jumbotron">
+        {{form_start(form)}}
+        {{form_widget(form)}}
+        {{form_end(form)}}
+    </div>
+</div>
+
 {% endblock %}
