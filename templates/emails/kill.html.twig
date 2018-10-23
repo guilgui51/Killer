@@ -1,10 +1,13 @@
 {# templates/emails/registration.html.twig #}
 <h3>Bravo agent {{participant.getName}}</h3>
-
+<p>
 Il semblerait que tu ai réussi un kill.
 L'agence te félicite. Mais ne te reposes pas trop car tu as déjà une nouvelle cible ainsi qu'une nouvelle mission.
-
+</p>
+<p>
 Utilise ton espace personnel pour les consulter ({{participant.getUid}})
-Tu peux utiliser cette url : <a href="http://ckngf.fr/participant/{{participant.getUid}}">Mon profil</a>.
-
+Tu peux utiliser cette url : <a href="http://ckngf.fr/profil/{{participant.getUid}}">Mon profil</a>.
+</p>
+<p>
 Fin de transmission.
+</p>
