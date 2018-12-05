@@ -19,6 +19,8 @@ class PartyController extends AbstractController
     public function createParty(Request $request, \Swift_Mailer $mailer)
     {
         $party = new KillerParty();
+        date_default_timezone_set('Europe/Paris');
+        $party->setStartingDate(new \DateTime(date("c")));
 
         $form = $this->createForm(PartyType::class, $party);
         $form->handleRequest($request);
@@ -110,9 +112,17 @@ class PartyController extends AbstractController
             );
         }
 
-        return $this->render('party/profil.html.twig', [
-            'participant' => $participant,
-        ]);
+        date_default_timezone_set('Europe/Paris');
+        $now =  new \DateTime(date("c"));
+
+        if ($now >= $participant->getParty()->getStartingDate()) {
+            return $this->render('party/profil.html.twig', [
+                'participant' => $participant,
+            ]);
+        }
+
+        return $this->redirectToRoute('home');
+
     }
 
     /**
@@ -135,6 +145,8 @@ class PartyController extends AbstractController
 
         if ($killer == $target) {
 
+            $participant->getParty()->setIsOver(true);
+            $participant->getParty()->setWinner($killer);
             foreach ($participant->getParty()->getParticipants() as $parti) {
                 $message = (new \Swift_Message("Communication entrante en provenance de l'Agence"))
                 ->setFrom('adminKiller@ckngf.fr')

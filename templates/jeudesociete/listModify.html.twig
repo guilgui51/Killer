@@ -1,0 +1,30 @@
+{% extends 'jdcbase.html.twig' %}
+
+{% block title %}Jeu de société{% endblock %}
+
+
+{% block body %}
+    <div class="container">
+    <div class="row">
+    {% for jeu in list.getGames %}
+    <div class="col-md-3 text-center">
+        {% if jeu.getOwned %}
+        <div class="thumbnail maxhauteur alert alert-success">
+        {% else %}
+        <div class="thumbnail maxhauteur alert alert-danger">
+        {% endif %}
+
+            <img class="img-responsive" src="/uploads/gamePicture/{{jeu.getPicture}}">
+        <div class="caption">
+          <a href="/jeudesociete/list/remove/{{jeu.getId}}/{{list.getId}}" class="btn btn-danger">{{jeu.getName}}</a>
+            </div>
+        </a>
+
+        </div>
+    </div>
+
+    {% endfor %}
+    </div>
+    </div>
+
+{% endblock %}

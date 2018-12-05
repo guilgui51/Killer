@@ -13,6 +13,8 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class AdminController extends AbstractController
 {
@@ -44,6 +46,26 @@ class AdminController extends AbstractController
         return $this->render('admin/missionList.html.twig',array(
             'missions'=>$missions,
         ));
+      }
+      else return $this->redirectToRoute('home');
+    }
+
+    /**
+     * @Route("/admin/mission/delete/{id}", name="missionDelete")
+     */
+    public function missionDelete($id)
+    {
+      $session = $this->get('session');
+        $user = $session->get('user');
+      if (!(empty($user)) && $user->getIsAdmin()) {
+
+          $entityManager = $this->getDoctrine()->getManager();
+          $mission = $entityManager->getRepository(Mission::class)->findOneBy(['id'=>$id]);
+
+          $entityManager->remove($mission);
+          $entityManager->flush();
+
+        return $this->redirectToRoute('missionList');
       }
       else return $this->redirectToRoute('home');
     }
@@ -107,6 +129,45 @@ class AdminController extends AbstractController
     }
 
     /**
+     * @Route("/admin/participant/modify/{uid}", name="participantModify")
+     */
+    public function participantModify($uid, Request $request)
+    {
+      $session = $this->get('session');
+    	$user = $session->get('user');
+      if (!(empty($user)) && $user->getIsAdmin()) {
+
+          $entityManager = $this->getDoctrine()->getManager();
+          $participant = $entityManager->getRepository(Participant::class)->findOneBy(['uid'=>$uid]);
+
+          $partyUID = $participant->getParty()->getUid();
+
+          $form = $this->createFormBuilder($participant)
+              ->add('name', TextType::class,array('label'=>"Nom"))
+              ->add('emailAddress', EmailType::class,array('label'=>'Email'))
+              ->add('mission', EntityType::class,array('label'=>'Mission','class'=>Mission::class,'choice_label'=>'missionTitle'))
+              ->add('save', SubmitType::class, array('label' => "Modifier"))
+              ->getForm();
+
+              $form->handleRequest($request);
+
+              if($form->isSubmitted() && $form->isValid()){
+
+                  $entityManager = $this->getDoctrine()->getManager();
+                  $entityManager->persist($participant);
+                  $entityManager->flush();
+                  return $this->redirectToRoute('partyView',['uid'=>$partyUID]);
+              }
+
+        return $this->render('admin/participantModify.html.twig',array(
+            'form'=>$form->createView(),
+        ));
+      }
+      else return $this->redirectToRoute('home');
+    }
+
+
+    /**
      * @Route("/admin/participant/kill/{uid}", name="participantKill")
      */
     public function participantKill($uid, \Swift_Mailer $mailer)
@@ -131,6 +192,8 @@ class AdminController extends AbstractController
 
           if ($killer == $target) {
 
+              $participant->getParty()->setIsOver(true);
+              $participant->getParty()->setWinner($killer);
               foreach ($participant->getParty()->getParticipants() as $parti) {
                   $message = (new \Swift_Message("Communication entrante en provenance de l'Agence"))
                   ->setFrom('adminKiller@ckngf.fr')

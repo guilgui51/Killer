@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="/assets/css/jdcstyle.css">
+        <title>{% block title %}Default{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body>
+        <header>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+		  <div class="container-fluid">
+		    <div class="navbar-header">
+			    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+			        <span class="icon-bar"></span>
+			        <span class="icon-bar"></span>
+			        <span class="icon-bar"></span>
+			    </button>
+		    </div>
+
+		  </div>
+
+		  <div class="collapse navbar-collapse" id="myNavbar">
+		  	<div class="navbar-header">
+		      <a class="navbar-brand" href="/jeudesociete">Jeu de société</a>
+		    </div>
+            {% block navbar %}
+            <ul class="nav navbar-nav">
+              <li><a href="/jeudesociete/jeu/list">Liste</a></li>
+              <li><a href="/home">Killer</a></li>
+              <li><a href="/jeudesociete/jeu/create">Entrer un jeu</a></li>
+              <li><a href="/jeudesociete/list/create">Ajouter une liste</a></li>
+              <li><a href="/jeudesociete/list/list">Voir les listes</a></li>
+            </ul>
+        {% endblock %}
+		    <ul class="nav navbar-nav navbar-right">
+          {% if not(app.session.get("user"))%}
+          <li><a href="/signin"><span class="glyphicon glyphicon-user"></span> S'enregistrer </a></li>
+		      <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> S'identifier &nbsp;</a></li>
+          {% else %}
+          <li><a href="#"><span class="glyphicon glyphicon-user"></span> {{app.session.get("user").getUserName() }} </a></li>
+          <li><a href="/disconnect"><span class="glyphicon glyphicon-log-out"></span> Se déconnecter &nbsp;</a></li>
+          {% endif %}
+		    </ul>
+
+		  </div>
+		</nav>
+		</header>
+		<main>
+		{% block body %}
+		{% endblock %}
+		</main>
+        {% block javascripts %}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="/script/navbutton.min.js"></script>
+  		{% endblock %}
+
+    </body>
+</html>

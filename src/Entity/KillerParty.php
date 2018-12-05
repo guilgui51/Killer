@@ -34,9 +34,19 @@ class KillerParty
     private $uid;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Participant", mappedBy="party", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Participant", mappedBy="party", cascade={"persist", "remove"})
      */
     private $participants;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isOver;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Participant", cascade={"persist", "remove"})
+     */
+    private $Winner;
 
     public function __construct()
     {
@@ -111,6 +121,30 @@ class KillerParty
                 $participant->setParty(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIsOver(): ?bool
+    {
+        return $this->isOver;
+    }
+
+    public function setIsOver(?bool $isOver): self
+    {
+        $this->isOver = $isOver;
+
+        return $this;
+    }
+
+    public function getWinner(): ?Participant
+    {
+        return $this->Winner;
+    }
+
+    public function setWinner(?Participant $Winner): self
+    {
+        $this->Winner = $Winner;
 
         return $this;
     }

@@ -35,20 +35,31 @@
 {% endblock %}
 
 {% block body %}
-
+<div class="container">
+<div class="jumbotron">
 {{ form_start(form) }}
     {# render the task's only field: description #}
-    {{ form_row(form.name) }}
-    {{ form_row(form.startingDate) }}
+    <div class="input-group input-group-lg">
+    <span class="input-group-addon">Nom de la partie</span> {{ form_widget(form.name) }}
+    </div>
+
+    <h3 class="text-center">{{ form_row(form.startingDate) }}</h3>
     <h3>Participants</h3>
-    <ul class="tags" data-prototype="{{ form_widget(form.participants.vars.prototype)|e('html_attr') }}">
+    <ul class="list-group tags" data-prototype="{{ form_widget(form.participants.vars.prototype)|e('html_attr') }}">
         {# iterate over each existing tag and render its only field: name #}
         {% for tag in form.participants %}
-            <li>{{ form_row(tag.name) }}  {{ form_row(tag.emailAddress) }}</li>
+            <li class="list-group-item">
+                <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span> {{ form_widget(tag.name) }}
+                <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span> {{ form_widget(tag.emailAddress) }}
+                </div>
+        </li>
         {% endfor %}
     </ul>
+    <div class="text-center">{{ form_widget(form.save) }}</div>
 {{ form_end(form) }}
-
+</div>
+</div>
 {% endblock %}
 {% block javascripts %}
 {{parent()}}
@@ -56,7 +67,7 @@
     var $collectionHolder;
 
     // setup an "add a tag" link
-    var $addTagButton = $('<button type="button" class="add_tag_link">Add a Participant</button>');
+    var $addTagButton = $('<button type="button" class="add_tag_link btn btn-default">Ajouter un Participant</button>');
     var $newLinkLi = $('<li></li>').append($addTagButton);
 
     jQuery(document).ready(function() {
@@ -106,7 +117,7 @@
 }
 
 function addTagFormDeleteLink($tagFormLi) {
-    var $removeFormButton = $('<button type="button">Delete this tag</button>');
+    var $removeFormButton = $('<button type="button" class="btn btn-danger">Retirer</button>');
     $tagFormLi.append($removeFormButton);
 
     $removeFormButton.on('click', function(e) {

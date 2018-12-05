@@ -23,16 +23,15 @@
         {% endif %}
 
 
-        <div class="row">
-        <div class="col-xs-6 text-center">
+        <div class="text-center">
+            <div class="btn-group">
         {% if participant.isAlive %}
-        <a class="btn btn-danger btn-lg" href="/killed/{{participant.getUid}}">Oh non je me suis fait tué :(</a>
+        <a class="btn btn-danger btn-sm" href="/killed/{{participant.getUid}}">Oh non je me suis fait tué :(</a>
         {% else %}
-        <a class="btn btn-danger btn-lg disabled" href="/killed/{{participant.getUid}}">Oh non je me suis fait tué :(</a>
+        <a class="btn btn-danger disabled btn-sm" href="/killed/{{participant.getUid}}">Oh non je me suis fait tué :(</a>
         {% endif %}
-        </div>
-        <div class="col-xs-6 text-center">
-        <a class="btn btn-success btn-lg" href="/party/{{participant.getParty.getUid}}">Voir le tableau des scores</a>
+
+        <a class="btn btn-success btn-sm" href="/party/{{participant.getParty.getUid}}">Voir le tableau des scores</a>
         </div>
         </div>
     </div>

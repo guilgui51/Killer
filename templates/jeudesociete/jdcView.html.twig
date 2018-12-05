@@ -1,0 +1,66 @@
+{% extends 'jdcbase.html.twig' %}
+
+{% block title %}Jeu de société{% endblock %}
+
+
+{% block body %}
+    <div class="container">
+    {% if jeu.getOwned %}
+    <div class="jumbotron alert alert-success">
+    {% else %}
+    <div class="jumbotron alert alert-danger">
+    {% endif %}
+        <div class="page-header">
+            <div class="row">
+                <div class="col-md-4 text-center">
+                    <img class="img-rounded img-responsive" src="/uploads/gamePicture/{{jeu.getPicture}}"></img>
+
+                    {% if lists|length > 0 %}
+                    <div class="dropdown">
+                     <button class="btn btn-primary btn-lg dropdown-toggle margin-bottom" type="button" data-toggle="dropdown">Ajouter à la liste
+                     <span class="caret"></span></button>
+                     <ul class="dropdown-menu">
+                         {% for list in lists %}
+                             <li><a href="/jeudesociete/add/{{jeu.getId}}/{{list.getId}}/view">{{list.getName}}</a></li>
+                         {% endfor %}
+                     </ul>
+                    </div>
+                    {% else %}
+                    <div class="dropdown">
+                     <button class="btn btn-primary btn-lg dropdown-toggle margin-bottom disabled" type="button" data-toggle="dropdown">Ajouter à la liste
+                     <span class="caret"></span></button>
+                    </div>
+                    {% endif %}
+
+                    <p class="well">{{jeu.getPrice|number_format(2, ',', '.')}}€</p>
+                    <p class="well">De {{jeu.getMinPlayer}} à {{jeu.getMaxPlayer}} joueurs</p>
+                    {% if jeu.getShopLink != null %}
+                    <a class="btn btn-info btn-lg" target="_blank" href="{{jeu.getShopLink}}">Voir en magasin
+                        {% if jeu.getAvailable %}
+                        <span class="label label-success">Disponible</span>
+                        {% else %}
+                        <span class="label label-danger">Indisponible</span>
+                        {% endif %}
+                    </a>
+                    {% else %}
+                    <a class="btn btn-info btn-lg disabled">Voir en magasin</a>
+                    {% endif %}
+
+                </div>
+                <div class="col-md-8">
+                    <h1 class="text-uppercase">{{jeu.getName}}</h1>
+                    <p class="lead">{{jeu.getDescription}}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center">
+        <div class="btn-group">
+        <a class="btn btn-warning btn-lg" href="/jeudesociete/jeu/modify/{{jeu.getId}}">Modifier</a>
+        <a class="btn btn-danger btn-lg" href="/jeudesociete/jeu/delete/{{jeu.getId}}">Supprimer</a>
+        </div>
+        </div>
+    </div>
+    </div>
+
+{% endblock %}

@@ -70,6 +70,11 @@ class srcDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
                     '/admin/mission/create' => array(array('_route' => 'adminMissionCreate', '_controller' => 'App\\Controller\\AdminController::createMission'), null, null, null),
                     '/home' => array(array('_route' => 'home', '_controller' => 'App\\Controller\\HomeController::index'), null, null, null),
                     '/' => array(array('_route' => 'homeRedirect', '_controller' => 'App\\Controller\\HomeController::indexRedirect'), null, null, null),
+                    '/jeudesociete' => array(array('_route' => 'jeudesociete', '_controller' => 'App\\Controller\\JeudesocieteController::index'), null, null, null),
+                    '/jeudesociete/jeu/create' => array(array('_route' => 'createGame', '_controller' => 'App\\Controller\\JeudesocieteController::createGame'), null, null, null),
+                    '/jeudesociete/jeu/list' => array(array('_route' => 'jeuListAdv', '_controller' => 'App\\Controller\\JeudesocieteController::jeuListAdv'), null, null, null),
+                    '/jeudesociete/list/create' => array(array('_route' => 'createList', '_controller' => 'App\\Controller\\JeudesocieteController::createList'), null, null, null),
+                    '/jeudesociete/list/list' => array(array('_route' => 'listList', '_controller' => 'App\\Controller\\JeudesocieteController::listList'), null, null, null),
                     '/login' => array(array('_route' => 'login', '_controller' => 'App\\Controller\\LoginController::userLogin'), null, null, null),
                     '/signin' => array(array('_route' => 'signin', '_controller' => 'App\\Controller\\LoginController::userSignIn'), null, null, null),
                     '/disconnect' => array(array('_route' => 'disconnect', '_controller' => 'App\\Controller\\LoginController::userDisconnect'), null, null, null),
@@ -104,31 +109,53 @@ class srcDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
         $matchedPathinfo = $pathinfo;
         $regexList = array(
             0 => '{^(?'
-                    .'|/admin/part(?'
-                        .'|y/(?'
-                            .'|view/([^/]++)(*:39)'
-                            .'|delete/([^/]++)(*:61)'
+                    .'|/admin/(?'
+                        .'|mission/delete/([^/]++)(*:40)'
+                        .'|part(?'
+                            .'|y/(?'
+                                .'|view/([^/]++)(*:72)'
+                                .'|delete/([^/]++)(*:94)'
+                            .')'
+                            .'|icipant/(?'
+                                .'|modify/([^/]++)(*:128)'
+                                .'|kill/([^/]++)(*:149)'
+                            .')'
                         .')'
-                        .'|icipant/kill/([^/]++)(*:90)'
+                    .')'
+                    .'|/jeudesociete/(?'
+                        .'|jeu/(?'
+                            .'|delete/([^/]++)(*:199)'
+                            .'|modify/([^/]++)(*:222)'
+                            .'|interest/([^/]++)(*:247)'
+                            .'|view/([^/]++)(*:268)'
+                            .'|observe/([^/]++)(*:292)'
+                        .')'
+                        .'|list/(?'
+                            .'|delete/([^/]++)(*:324)'
+                            .'|modify/([^/]++)(*:347)'
+                            .'|remove/([^/]++)/([^/]++)(*:379)'
+                            .'|view/([^/]++)(*:400)'
+                        .')'
+                        .'|add/([^/]++)/([^/]++)/([^/]++)(*:439)'
                     .')'
                     .'|/p(?'
-                        .'|arty/([^/]++)(*:116)'
-                        .'|rofil/([^/]++)(*:138)'
+                        .'|arty/([^/]++)(*:466)'
+                        .'|rofil/([^/]++)(*:488)'
                     .')'
-                    .'|/killed/([^/]++)(*:163)'
+                    .'|/killed/([^/]++)(*:513)'
                     .'|/_(?'
-                        .'|error/(\\d+)(?:\\.([^/]++))?(*:202)'
-                        .'|wdt/([^/]++)(*:222)'
+                        .'|error/(\\d+)(?:\\.([^/]++))?(*:552)'
+                        .'|wdt/([^/]++)(*:572)'
                         .'|profiler/([^/]++)(?'
                             .'|/(?'
-                                .'|search/results(*:268)'
-                                .'|router(*:282)'
+                                .'|search/results(*:618)'
+                                .'|router(*:632)'
                                 .'|exception(?'
-                                    .'|(*:302)'
-                                    .'|\\.css(*:315)'
+                                    .'|(*:652)'
+                                    .'|\\.css(*:665)'
                                 .')'
                             .')'
-                            .'|(*:325)'
+                            .'|(*:675)'
                         .')'
                     .')'
                 .')$}sD',
@@ -139,19 +166,31 @@ class srcDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
                 switch ($m = (int) $matches['MARK']) {
                     default:
                         $routes = array(
-                            39 => array(array('_route' => 'partyView', '_controller' => 'App\\Controller\\AdminController::partyView'), array('uid'), null, null),
-                            61 => array(array('_route' => 'participantView', '_controller' => 'App\\Controller\\AdminController::participantView'), array('uid'), null, null),
-                            90 => array(array('_route' => 'participantKill', '_controller' => 'App\\Controller\\AdminController::participantKill'), array('uid'), null, null),
-                            116 => array(array('_route' => 'party', '_controller' => 'App\\Controller\\PartyController::showParty'), array('uid'), null, null),
-                            138 => array(array('_route' => 'profil', '_controller' => 'App\\Controller\\PartyController::showProfil'), array('uid'), null, null),
-                            163 => array(array('_route' => 'killed', '_controller' => 'App\\Controller\\PartyController::killed'), array('uid'), null, null),
-                            202 => array(array('_route' => '_twig_error_test', '_controller' => 'twig.controller.preview_error::previewErrorPageAction', '_format' => 'html'), array('code', '_format'), null, null),
-                            222 => array(array('_route' => '_wdt', '_controller' => 'web_profiler.controller.profiler::toolbarAction'), array('token'), null, null),
-                            268 => array(array('_route' => '_profiler_search_results', '_controller' => 'web_profiler.controller.profiler::searchResultsAction'), array('token'), null, null),
-                            282 => array(array('_route' => '_profiler_router', '_controller' => 'web_profiler.controller.router::panelAction'), array('token'), null, null),
-                            302 => array(array('_route' => '_profiler_exception', '_controller' => 'web_profiler.controller.exception::showAction'), array('token'), null, null),
-                            315 => array(array('_route' => '_profiler_exception_css', '_controller' => 'web_profiler.controller.exception::cssAction'), array('token'), null, null),
-                            325 => array(array('_route' => '_profiler', '_controller' => 'web_profiler.controller.profiler::panelAction'), array('token'), null, null),
+                            40 => array(array('_route' => 'missionDelete', '_controller' => 'App\\Controller\\AdminController::missionDelete'), array('id'), null, null),
+                            72 => array(array('_route' => 'partyView', '_controller' => 'App\\Controller\\AdminController::partyView'), array('uid'), null, null),
+                            94 => array(array('_route' => 'participantView', '_controller' => 'App\\Controller\\AdminController::participantView'), array('uid'), null, null),
+                            128 => array(array('_route' => 'participantModify', '_controller' => 'App\\Controller\\AdminController::participantModify'), array('uid'), null, null),
+                            149 => array(array('_route' => 'participantKill', '_controller' => 'App\\Controller\\AdminController::participantKill'), array('uid'), null, null),
+                            199 => array(array('_route' => 'jeuDelete', '_controller' => 'App\\Controller\\JeudesocieteController::jeuDelete'), array('id'), null, null),
+                            222 => array(array('_route' => 'jeuModify', '_controller' => 'App\\Controller\\JeudesocieteController::jeuModify'), array('id'), null, null),
+                            247 => array(array('_route' => 'jeuModifyInterest', '_controller' => 'App\\Controller\\JeudesocieteController::jeuModifyInterest'), array('id'), null, null),
+                            268 => array(array('_route' => 'jeuView', '_controller' => 'App\\Controller\\JeudesocieteController::jeuView'), array('id'), null, null),
+                            292 => array(array('_route' => 'jeuObserve', '_controller' => 'App\\Controller\\JeudesocieteController::jeuObserve'), array('id'), null, null),
+                            324 => array(array('_route' => 'listDelete', '_controller' => 'App\\Controller\\JeudesocieteController::listDelete'), array('id'), null, null),
+                            347 => array(array('_route' => 'listModify', '_controller' => 'App\\Controller\\JeudesocieteController::listModify'), array('id'), null, null),
+                            379 => array(array('_route' => 'removeFromList', '_controller' => 'App\\Controller\\JeudesocieteController::removeFromList'), array('gameId', 'listId'), null, null),
+                            400 => array(array('_route' => 'listView', '_controller' => 'App\\Controller\\JeudesocieteController::listView'), array('listId'), null, null),
+                            439 => array(array('_route' => 'addToList', '_controller' => 'App\\Controller\\JeudesocieteController::addToList'), array('gameId', 'listId', 'from'), null, null),
+                            466 => array(array('_route' => 'party', '_controller' => 'App\\Controller\\PartyController::showParty'), array('uid'), null, null),
+                            488 => array(array('_route' => 'profil', '_controller' => 'App\\Controller\\PartyController::showProfil'), array('uid'), null, null),
+                            513 => array(array('_route' => 'killed', '_controller' => 'App\\Controller\\PartyController::killed'), array('uid'), null, null),
+                            552 => array(array('_route' => '_twig_error_test', '_controller' => 'twig.controller.preview_error::previewErrorPageAction', '_format' => 'html'), array('code', '_format'), null, null),
+                            572 => array(array('_route' => '_wdt', '_controller' => 'web_profiler.controller.profiler::toolbarAction'), array('token'), null, null),
+                            618 => array(array('_route' => '_profiler_search_results', '_controller' => 'web_profiler.controller.profiler::searchResultsAction'), array('token'), null, null),
+                            632 => array(array('_route' => '_profiler_router', '_controller' => 'web_profiler.controller.router::panelAction'), array('token'), null, null),
+                            652 => array(array('_route' => '_profiler_exception', '_controller' => 'web_profiler.controller.exception::showAction'), array('token'), null, null),
+                            665 => array(array('_route' => '_profiler_exception_css', '_controller' => 'web_profiler.controller.exception::cssAction'), array('token'), null, null),
+                            675 => array(array('_route' => '_profiler', '_controller' => 'web_profiler.controller.profiler::panelAction'), array('token'), null, null),
                         );
 
                         list($ret, $vars, $requiredMethods, $requiredSchemes) = $routes[$m];
@@ -177,7 +216,7 @@ class srcDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
                         return $ret;
                 }
 
-                if (325 === $m) {
+                if (675 === $m) {
                     break;
                 }
                 $regex = substr_replace($regex, 'F', $m - $offset, 1 + strlen($m));

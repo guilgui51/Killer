@@ -1,0 +1,76 @@
+{% extends 'jdcbase.html.twig' %}
+
+{% block title %}Jeu de société{% endblock %}
+
+
+{% block body %}
+    <div class="container">
+    <div class="jumbotron">
+        <div class="page-header">
+        <h1 class="text-center text-uppercase">
+            Jeu de société
+        </h1>
+
+        </div>
+    <div class="table-responsive">
+     <table class="table">
+         <thead>
+           <tr>
+             <th class="text-center">Nom</th>
+             <th class="text-center">Prix</th>
+             <th class="text-center">Joueurs</th>
+           </tr>
+         </thead>
+         <tbody>
+             {% for jeu in jeux %}
+               <td class="text-center">{{jeu.getName}}</td>
+               <td class="text-center">{{jeu.getPrice}}</td>
+               <td class="text-center">{{jeu.getMinPlayer}}-{{jeu.getMaxPlayer}}</td>
+               <td class="text-center">
+                   {% if lists|length > 0 %}
+                   <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle margin-bottom" type="button" data-toggle="dropdown">Ajouter à la liste
+                    <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        {% for list in lists %}
+                            <li><a href="/jeudesociete/add/{{jeu.getId}}/{{list.getId}}/list">{{list.getName}}</a></li>
+                        {% endfor %}
+                    </ul>
+                   </div>
+                   {% else %}
+                   <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle margin-bottom disabled" type="button" data-toggle="dropdown">Ajouter à la liste
+                    <span class="caret"></span></button>
+                   </div>
+                   {% endif %}
+               </td>
+               <td class="text-center">
+                   <div class="btn-group">
+                       <a class="btn btn-warning" href="/jeudesociete/jeu/modify/{{jeu.getId}}">Modifier</a>
+                       <a class="btn btn-danger" href="/jeudesociete/jeu/delete/{{jeu.getId}}">Supprimer</a>
+
+                       {% if jeu.getShopLink != null %}
+                       <a class="btn btn-info" target="_blank" href="{{jeu.getShopLink}}">Voir en magasin
+                           {% if jeu.getAvailable %}
+                           <span class="label label-success">Disponible</span>
+                           {% else %}
+                           <span class="label label-danger">Indisponible</span>
+                           {% endif %}
+                       </a>
+                       {% else %}
+                       <a class="btn btn-info disabled">Voir en magasin</a>
+                       {% endif %}
+
+
+
+                    </div>
+                </td>
+             </tr>
+             {% endfor %}
+        </tbody>
+     </table>
+    </div>
+    </div>
+    </div>
+
+{% endblock %}

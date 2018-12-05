@@ -4,7 +4,7 @@
 
 {% block navbar %}
 <ul class="nav navbar-nav">
-  <li><a href="#">Administration</a></li>
+  <li><a href="/admin/home">Administration</a></li>
   <li><a href="/home">Home</a></li>
   <li><a href="/admin/mission/create">Créer une mission</a></li>
   <li><a href="/admin/mission/list">Voir les missions</a></li>
@@ -18,7 +18,17 @@
     <div class="container">
     <div class="jumbotron">
         <div class="page-header">
-        <h1 class="text-center text-uppercase">{{party.getName}}</h1>
+        <h1 class="text-center text-uppercase">{{party.getName}}
+            {% if party.getIsOver == true %}
+            <span class="label label-default">Finie</span>
+            {% endif %}
+        </h1>
+        {% if party.getIsOver == true %}
+        <h2 class="text-center">
+            Agent victorieux : {{party.getWinner.getName}}
+        </h2>
+        {% endif %}
+
         </div>
     <div class="table-responsive">
      <table class="table">
@@ -54,10 +64,12 @@
                <td class="text-center">{{participant.getMission.getMissionTitle}}</td>
                <td class="text-center">
                    <div class="btn-group">
-                       <a class="btn btn-warning btn-sm" href="/admin/partipant/modify/{{participant.getUid}}">Modifier</a>
-                       {% if participant.isAlive %}
+
+                       {% if participant.isAlive and party.getIsOver != true %}
+                       <a class="btn btn-warning btn-sm" href="/admin/participant/modify/{{participant.getUid}}">Modifier</a>
                        <a class="btn btn-danger btn-sm" href="/admin/participant/kill/{{participant.getUid}}">Tuer</a>
                        {% else %}
+                       <a class="btn btn-warning btn-sm disabled" href="/admin/participant/modify/{{participant.getUid}}">Modifier</a>
                        <a class="btn btn-danger btn-sm disabled" href="/admin/participant/kill/{{participant.getUid}}">Tuer</a>
                        {% endif %}
                     </div>

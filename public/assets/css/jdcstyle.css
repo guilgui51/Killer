@@ -1,0 +1,38 @@
+body {
+	margin-top: 100px;
+	background-image: url("/assets/images/images.png");
+	min-height: 1000px;
+}
+
+.margin-bottom{
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
+.dropdown {
+  position: relative!important;
+}
+
+.dropdown-menu {
+  position: absolute!important;
+  top: 75%!important; /* Bottom of button */
+  right: 0!important;
+
+}
+
+.maxhauteur{
+	min-height: 450px;
+	max-height: 450px;
+}
+
+.show {
+    display: block;
+}
+
+.btn:hover {
+  background-color: #ddd;
+}
+
+.dontShow{
+	display: none;
+}

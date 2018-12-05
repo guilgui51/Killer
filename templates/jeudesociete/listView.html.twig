@@ -1,0 +1,28 @@
+{% extends 'jdcbase.html.twig' %}
+
+{% block title %}Jeu de société{% endblock %}
+
+
+{% block body %}
+    <div class="container">
+    <div class="row">
+    {% for jeu in jeux %}
+    <div class="col-md-3 text-center">
+        <div class="thumbnail maxhauteur">
+
+            <a href="/jeudesociete/jeu/observe/{{jeu.getId}}"><img class="img-responsive" src="/uploads/gamePicture/{{jeu.getPicture}}"></img>
+        <div class="caption">
+          <h2>{{jeu.getName}}</h2>
+            </div>
+
+
+        </a>
+        <h4><span class="label label-info">Intérêt : {{6 - jeu.getInterest}}</span></h4>
+        </div>
+    </div>
+
+    {% endfor %}
+    </div>
+    </div>
+
+{% endblock %}

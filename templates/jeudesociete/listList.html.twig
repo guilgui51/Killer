@@ -1,0 +1,39 @@
+{% extends 'jdcbase.html.twig' %}
+
+{% block title %}Jeu de société{% endblock %}
+
+{% block body %}
+    <div class="container">
+    <div class="jumbotron">
+        <div class="page-header">
+        <h1 class="text-center text-uppercase">
+            Listes
+        </h1>
+
+        </div>
+    <div class="table-responsive">
+     <table class="table">
+         <thead>
+           <tr>
+             <th class="text-center">Nom</th>
+           </tr>
+         </thead>
+         <tbody>
+             {% for list in lists %}
+               <td class="text-center">{{list.getName}} <span class="label label-default"> {{list.getGames|length}}</span></td>
+               <td class="text-center">
+                   <div class="btn-group">
+                       <a class="btn btn-success" href="/jeudesociete/list/view/{{list.getId}}">Voir</a>
+                       <a class="btn btn-warning" href="/jeudesociete/list/modify/{{list.getId}}">Modifier</a>
+                       <a class="btn btn-danger" href="/jeudesociete/list/delete/{{list.getId}}">Supprimer</a>
+                    </div>
+                </td>
+             </tr>
+             {% endfor %}
+        </tbody>
+     </table>
+    </div>
+    </div>
+    </div>
+
+{% endblock %}
